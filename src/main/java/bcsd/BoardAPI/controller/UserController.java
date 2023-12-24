@@ -43,5 +43,4 @@ public class UserController {
     public void deleteUser(@PathVariable String userId) throws SQLException {
         userService.deleteUser(userId);
     }
-
 }
