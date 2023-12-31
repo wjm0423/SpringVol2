@@ -15,32 +15,32 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/")
-    public User insertUser(@RequestBody User user) throws SQLException {
+    public User insertUser(@RequestBody User user) {
         return userService.insertUser(user);
     }
 
     @GetMapping("")
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{userId}")
-    public User getUserByUserId(@PathVariable String userId) throws SQLException {
+    public User getUserByUserId(@PathVariable String userId) {
         return userService.getUserByUserId(userId);
     }
 
     @PutMapping("/{userId}/name")
-    public void updateUserName(@PathVariable String userId, @RequestBody User user) throws SQLException {
-        userService.updateUserName(userId, user);
+    public void updateUserName(@PathVariable String userId, @RequestBody User user) {
+        userService.updateUserName(userId, user.getUserName());
     }
 
     @PutMapping("/{userId}/pw")
-    public void updateUserPw(@PathVariable String userId, @RequestBody User user) throws SQLException {
-        userService.updateUserPw(userId, user);
+    public void updateUserPw(@PathVariable String userId, @RequestBody User user) {
+        userService.updateUserPw(userId, user.getUserPw());
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable String userId) throws SQLException {
+    public void deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
     }
 }
