@@ -1,18 +1,34 @@
 package bcsd.BoardAPI.controller;
 
+import bcsd.BoardAPI.domain.JWT;
+import bcsd.BoardAPI.domain.SignIn;
 import bcsd.BoardAPI.domain.User;
 import bcsd.BoardAPI.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     UserService userService;
+
+    @PostMapping("/sign-in")
+    public JWT signIn(@RequestBody SignIn signIn) {
+        String userName = signIn.getUserName();
+        String userPw = signIn.getUserPw();
+        JWT jwt = userService.signIn(userName, userPw);
+        log.info("request username = {}, password = {}", userName, userPw);
+        log.info("JWT accessToken = {}, refreshToken = {}", jwt.getAccessToken(), jwt.getRefreshToken());
+        return jwt;
+    }
 
     @PostMapping("/")
     public User insertUser(@RequestBody User user) {
@@ -31,7 +47,7 @@ public class UserController {
 
     @PutMapping("/{userId}/name")
     public void updateUserName(@PathVariable String userId, @RequestBody User user) {
-        userService.updateUserName(userId, user.getUserName());
+        userService.updateUserName(userId, user.getUsername());
     }
 
     @PutMapping("/{userId}/pw")
